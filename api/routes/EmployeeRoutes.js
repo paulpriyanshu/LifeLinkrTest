@@ -1,13 +1,12 @@
 import { Router } from "express";
 import { AdminLogin } from "../controller/AdminController.js";
-import { AddEmployee, EditEmployee, GetAllEmployees, GetEmployee } from "../controller/EmployeeController.js";
+import { AddEmployee, deleteEmployee, EditEmployee, GetAllEmployees, GetEmployee } from "../controller/EmployeeController.js";
 import multer from "multer";
 import path from "path"
-import express from "express"
+import {authMiddleware} from "../middlewares/authMiddleware.js";
 
 const router = Router()
 
-// Setup storage
 const storage = multer.diskStorage({
   destination: "uploads/",
   filename: (req, file, cb) => {
@@ -23,10 +22,11 @@ router.post(
   "/login",
   AdminLogin
 );
-router.post("/createEmployee",upload.single("f_Image"),AddEmployee)
-router.get("/allEmployees",GetAllEmployees)
-router.get("/employee/:id",GetEmployee)
-router.post("/editEmployee/:id",upload.single("f_Image"),EditEmployee)
+router.post("/createEmployee",authMiddleware,upload.single("f_Image"),AddEmployee)
+router.get("/allEmployees",authMiddleware,GetAllEmployees)
+router.get("/employee/:id",authMiddleware,GetEmployee)
+router.post("/deleteEmployee/:id",authMiddleware,deleteEmployee)
+router.post("/editEmployee/:id",authMiddleware,upload.single("f_Image"),EditEmployee)
 // router.post("/upload",AddEmployee)
 
 export default router

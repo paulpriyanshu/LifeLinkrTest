@@ -3,20 +3,17 @@ import { employeeSchema } from "../utils/validations.js";
 
 
 export const AddEmployee = async (req, res) => {
-  // req.file contains image file
-  // req.body contains other fields (like f_Name, f_Email, etc.)
+
 
   if (!req.file) {
     return res.status(400).json({ error: "Employee image is required." });
   }
 
-  // Combine image path with the rest of the data
   const payload = {
     ...req.body,
-    f_Image: `/uploads/${req.file.filename}`, // or full path depending on your setup
+    f_Image: `/uploads/${req.file.filename}`, 
   };
   console.log("payload",payload)
-  // Zod validation
   const userData = employeeSchema.safeParse(payload);
 
   if (!userData.success) {
@@ -58,6 +55,23 @@ export const GetAllEmployees = async (req, res) => {
     });
   }
 };
+export const deleteEmployee=async(req,res)=>{
+    try {
+        const {id}=req.params
+        const emp_id=parseInt(id)
+        await prisma.employee.delete({
+            where:{
+                f_id:emp_id
+            }
+        })
+        return true
+    } catch (error) {
+        console.error("error deleting employee",error)
+        res.status(500).json({
+            message:error
+        })
+    }
+}
 export const GetEmployee = async (req, res) => {
   try {
     const {id}=req.params

@@ -17,7 +17,7 @@ function Login() {
         // console.log("user name",userName)
         // console.log("password",password)
         try {
-            const response=await fetch('http://localhost:8000/api/v1/admin/login',{
+            const response=await fetch(`${import.meta.env.VITE_API_URL}/api/v1/admin/login`,{
                 method:'POST',
                 headers: {
                 'Content-Type': 'application/json'

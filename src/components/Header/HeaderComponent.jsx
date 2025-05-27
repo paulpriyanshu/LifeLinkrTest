@@ -27,6 +27,9 @@ function HeaderComponent({ username, onLogout, children }) {
           <Link to="/employees" className="text-slate-700 font-semibold hover:text-blue-600">
             Employee List
           </Link>
+           <Link to="/CreateEmployee" className="text-slate-700 font-semibold hover:text-blue-600">
+            Add Employee
+          </Link>
         </nav>
 
         {/* Right: User Info & Logout */}

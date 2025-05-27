@@ -10,21 +10,7 @@ export const AdminLogin=async(req,res)=>{
             where:{
                 username
             },
-            // select:{
-            //     username:true
-            // }
-            
-
         })
-        // console.log(findUser)
-        
-   
-        //   const newUser=await db.admin.create({
-        //       data:{
-        //           username,
-        //           password
-        //       }
-        //   })
         if(!findUser){
             return res.status(404).json({
                 status:"failed",

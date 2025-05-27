@@ -8,6 +8,7 @@ import Login from './components/Login/Login.jsx'
 import Employee from './components/Employee/Employee.jsx'
 import CreateEmployee from './components/CreateEmployee/CreateEmployee.jsx'
 import EditEmployee from './components/EditEmployee/EditEmployee.jsx'
+import ProtectedRoute from '../api/utils/ProtectedRoute.jsx'
 
 const router=createBrowserRouter([
   {
@@ -16,7 +17,12 @@ const router=createBrowserRouter([
     children : [
       {
         path:"",
-        element:<Home/>
+
+        element:(
+          <ProtectedRoute>
+            <Home/>
+          </ProtectedRoute>
+        )
       },
       {
         path:"/login",
@@ -24,15 +30,25 @@ const router=createBrowserRouter([
       },
       {
         path:"/CreateEmployee",
-        element: <CreateEmployee/>
+        element: (
+          <ProtectedRoute>
+            <CreateEmployee/>
+          </ProtectedRoute>
+        )
       },
       {
         path:"/employees",
-        element:<Employee/>
+        element:<ProtectedRoute>
+          <Employee/>
+        </ProtectedRoute>
       },
       {
         path:`/editEmployee/:id`,
-        element:<EditEmployee/>
+        element:( 
+          <ProtectedRoute>
+            <EditEmployee/>
+          </ProtectedRoute>
+        )
       }
     ]
   }

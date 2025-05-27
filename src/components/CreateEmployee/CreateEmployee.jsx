@@ -34,9 +34,10 @@ const [formData, setFormData] = useState({
     data.append('f_Course', formData.f_Course);
     data.append('f_Image', formData.f_Image);
     try {
-        const response = await fetch('http://localhost:8000/api/v1/admin/createEmployee', {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/admin/createEmployee`, {
       method: 'POST',
-      body: data
+      body: data,
+      credentials:"include"
       
     });
      const result = await response.json();
@@ -44,6 +45,15 @@ const [formData, setFormData] = useState({
     if (result.status=="success") {
       alert('Employee added successfully!');
       console.log(result);
+      setFormData({
+            f_Name: '',
+            f_Email: '',
+            f_Designation: '',
+            f_Gender: '',
+            f_Course: '',
+            f_MobileNo: '',
+            f_Image: null
+      })
     } else {
       console.error('Validation errors:', result.errors);
       alert('Validation failed. Check console for errors.');

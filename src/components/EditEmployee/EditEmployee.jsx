@@ -21,7 +21,10 @@ function EditEmployee() {
   useEffect(() => {
     const fetchEmployee = async () => {
       try {
-        const res = await fetch(`http://localhost:8000/api/v1/admin/employee/${id}`);
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/admin/employee/${id}`,{
+            method:'GET',
+            credentials:"include"
+        });
         const result = await res.json();
         console.log("result",result)
         if (result.status === 'success') {
@@ -67,9 +70,10 @@ function EditEmployee() {
     }
 
     try {
-      const response = await fetch(`http://localhost:8000/api/v1/admin/editEmployee/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/admin/editEmployee/${id}`, {
         method: 'POST',
         body: data,
+        credentials:"include"
       });
       const result = await response.json();
 
@@ -85,7 +89,7 @@ function EditEmployee() {
       alert('Something went wrong!');
     }
   };
-console.log(`http://localhost:8000${formData.f_Image}`)
+console.log(`${import.meta.env.VITE_API_URL}${formData.f_Image}`)
   return (
     <div className='flex justify-center items-center w-full h-screen '>
       <div className='bg-white shadow-2xl p-8 rounded-2xl w-full max-w-lg'>
@@ -127,7 +131,7 @@ console.log(`http://localhost:8000${formData.f_Image}`)
                 />
                 ) : formData.f_ImageURL ? (
                 <img
-                    src={`http://localhost:8000${formData.f_ImageURL}`}
+                    src={`${import.meta.env.VITE_API_URL}${formData.f_ImageURL}`}
                     alt="Current Image"
                     className="mt-3 w-32 h-32 object-cover rounded-md shadow"
                 />
