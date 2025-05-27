@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 
 
 app.use(cors({
-  origin: "*",
+  origin: "https://d1tep2bf3wpllv.cloudfront.net",
   credentials: true,              
 }));
 
