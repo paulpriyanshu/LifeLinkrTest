@@ -29,6 +29,7 @@ function Login() {
                 })
             })
             const admin=await response.json()
+            console.log("admin",admin)
             if(admin.status==="success"){
                 navigate("/")
             }

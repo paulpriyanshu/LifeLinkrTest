@@ -1,32 +1,29 @@
 import { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 
-export default function Dashboard() {
+const ProtectedRoute = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchSession = async () => {
       try {
-        const res = await fetch("https://life.coryfi.com/session", {
+        const res = await fetch("http://localhost:8000/session", {
           method: "GET",
           credentials: "include",
         });
 
         if (res.status === 401 || res.status === 403) {
-          // Not authenticated → redirect
-          window.location.href = "/login";
-          return;
-        }
-
-        const data = await res.json();
-        if (data.user) {
-          setUser(data.user.username);
+          setUser(null);
         } else {
-          window.location.href = "/login";
+          const data = await res.json();
+          if (data.user) {
+            setUser(data.user);
+          }
         }
       } catch (err) {
-        console.error("Session error:", err.message);
-        window.location.href = "/login"; // Fallback
+        console.error("Session fetch failed:", err);
+        setUser(null);
       } finally {
         setLoading(false);
       }
@@ -35,7 +32,15 @@ export default function Dashboard() {
     fetchSession();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) {
+    return <div className="text-center mt-10">Checking session...</div>;
+  }
 
-  return <div>Welcome, {user}!</div>;
-}
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return children;
+};
+
+export default ProtectedRoute;

@@ -12,7 +12,8 @@ const __dirname = path.dirname(__filename);
 
 
 app.use(cors({
-  origin: "https://d1tep2bf3wpllv.cloudfront.net",
+//   origin: "https://d1tep2bf3wpllv.cloudfront.net",
+ origin:"http://localhost:5173",
   credentials: true,              
 }));
 
