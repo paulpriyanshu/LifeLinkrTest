@@ -28,8 +28,8 @@ export const AdminLogin=async(req,res)=>{
         })
             res.cookie("auth-token", token, {
             httpOnly: true,
-            secure: false, 
-            sameSite: "None", 
+            secure: true, 
+            sameSite: "none", 
             maxAge: 1000 * 60 * 60 * 24, 
             });
 
