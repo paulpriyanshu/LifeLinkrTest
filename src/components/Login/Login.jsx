@@ -31,12 +31,20 @@ function Login() {
             const admin=await response.json()
             console.log("admin",admin)
             if(admin.status==="success"){
-                navigate("/")
+                window.location.href="/"
+            }
+            if(admin.status==="failed" && admin.data==="Invalid password"){
+                toast.error(" ❌ Invalid Password")
+            }
+              if(admin.status==="failed" && admin.data==="User not found"){
+                toast.error("User not found")
             }
             // console.log("admin",admin)
 
 
         } catch (error) {
+            console.error("Error while logging in",error)
+            toast.error('Error while logging in')
             
         }
 

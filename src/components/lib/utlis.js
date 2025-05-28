@@ -7,7 +7,7 @@ export function useSession() {
   useEffect(() => {
     const fetchSession = async () => {
       try {
-        const res = await fetch("https://life.coryfi.com/session", {
+        const res = await fetch("http://localhost:8000/session", {
           method: "GET",
           credentials: "include",
         });
