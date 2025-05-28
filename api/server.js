@@ -14,6 +14,8 @@ const __dirname = path.dirname(__filename);
 app.use(cors({
   origin: "https://d1tep2bf3wpllv.cloudfront.net",
   credentials: true,              
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
 app.use(express.json())
