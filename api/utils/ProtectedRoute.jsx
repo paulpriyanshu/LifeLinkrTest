@@ -1,18 +1,37 @@
-import { Navigate } from "react-router-dom";
-import { useSession } from "../../src/components/lib/utlis";
+import { useEffect, useState } from "react";
 
-const ProtectedRoute = ({ children }) => {
-  const { user, loading } = useSession();
+export default function Dashboard() {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  if (loading) {
-    return <div className="text-center mt-10">Checking session...</div>;
-  }
+  useEffect(() => {
+    const fetchSession = async () => {
+      try {
+        const res = await fetch("https://life.coryfi.com/session", {
+          method: "GET",
+          credentials: "include", // ✅ important for sending the auth-token
+        });
 
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
+        if (!res.ok) throw new Error("Unauthorized");
 
-  return children;
-};
+        const data = await res.json();
+        console.log("User data:", data);
 
-export default ProtectedRoute;
+        if (data.user) {
+          setUser(data.user.username);
+        }
+      } catch (err) {
+        console.error("Failed to fetch session:", err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSession();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+  if (!user) return <div>You are not logged in.</div>;
+
+  return <div>Welcome, {user}!</div>;
+}
