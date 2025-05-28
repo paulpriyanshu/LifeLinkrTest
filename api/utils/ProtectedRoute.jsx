@@ -9,19 +9,24 @@ export default function Dashboard() {
       try {
         const res = await fetch("https://life.coryfi.com/session", {
           method: "GET",
-          credentials: "include", // ✅ important for sending the auth-token
+          credentials: "include",
         });
 
-        if (!res.ok) throw new Error("Unauthorized");
+        if (res.status === 401 || res.status === 403) {
+          // Not authenticated → redirect
+          window.location.href = "/login";
+          return;
+        }
 
         const data = await res.json();
-        console.log("User data:", data);
-
         if (data.user) {
           setUser(data.user.username);
+        } else {
+          window.location.href = "/login";
         }
       } catch (err) {
-        console.error("Failed to fetch session:", err.message);
+        console.error("Session error:", err.message);
+        window.location.href = "/login"; // Fallback
       } finally {
         setLoading(false);
       }
@@ -31,7 +36,6 @@ export default function Dashboard() {
   }, []);
 
   if (loading) return <div>Loading...</div>;
-  if (!user) return <div>You are not logged in.</div>;
 
   return <div>Welcome, {user}!</div>;
 }
