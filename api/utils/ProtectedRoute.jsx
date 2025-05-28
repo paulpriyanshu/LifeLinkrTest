@@ -8,7 +8,7 @@ const ProtectedRoute = ({ children }) => {
   useEffect(() => {
     const fetchSession = async () => {
       try {
-        const res = await fetch("http://localhost:8000/session", {
+        const res = await fetch("https://life.coryfi.com/session", {
           method: "GET",
           credentials: "include",
         });
